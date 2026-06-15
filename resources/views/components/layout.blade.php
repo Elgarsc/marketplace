@@ -44,11 +44,6 @@
             transition: transform 0.3s, box-shadow 0.3s;
         }
 
-        .card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-        }
-
         .btn-primary {
             background-color: var(--primary-color);
             border-color: var(--primary-color);

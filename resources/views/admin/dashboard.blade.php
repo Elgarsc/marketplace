@@ -1,5 +1,5 @@
 <x-layout>
-    <div class="container-fluid mt-5">
+    <div class="mt-5">
         <div class="row mb-5">
             <div class="col-12">
                 <h1 class="display-4 mb-2">
@@ -10,65 +10,67 @@
         </div>
 
         <!-- Statistics Cards -->
-        <div class="row mb-5">
-            <div class="col-md-3 mb-3">
-                <div class="card shadow-sm border-0">
+        <div class="row g-4 mb-5">
+            <div class="col-md-3">
+                <div class="card shadow-sm border-0 h-100">
                     <div class="card-body">
                         <div class="d-flex align-items-center">
                             <div class="flex-grow-1">
-                                <h6 class="text-muted mb-0">Total Users</h6>
-                                <h3 class="mb-0 text-primary">{{ $totalUsers }}</h3>
+                                <h6 class="text-muted small text-uppercase fw-semibold mb-1">Total Users</h6>
+                                <h3 class="mb-0 text-primary fw-bold">{{ $totalUsers }}</h3>
                             </div>
-                            <i class="bi bi-people-fill text-primary" style="font-size: 2rem;"></i>
+                            <i class="bi bi-people-fill text-primary fs-2"></i>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="col-md-3 mb-3">
-                <div class="card shadow-sm border-0">
+            <div class="col-md-3">
+                <div class="card shadow-sm border-0 h-100">
                     <div class="card-body">
                         <div class="d-flex align-items-center">
                             <div class="flex-grow-1">
-                                <h6 class="text-muted mb-0">Total Listings</h6>
-                                <h3 class="mb-0 text-success">{{ $totalListings }}</h3>
+                                <h6 class="text-muted small text-uppercase fw-semibold mb-1">Total Listings</h6>
+                                <h3 class="mb-0 text-success fw-bold">{{ $totalListings }}</h3>
                             </div>
-                            <i class="bi bi-shop text-success" style="font-size: 2rem;"></i>
+                            <i class="bi bi-shop text-success fs-2"></i>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="col-md-3 mb-3">
-                <div class="card shadow-sm border-0">
+            <div class="col-md-3">
+                <div class="card shadow-sm border-0 h-100">
                     <div class="card-body">
                         <div class="d-flex align-items-center">
                             <div class="flex-grow-1">
-                                <h6 class="text-muted mb-0">Categories</h6>
-                                <h3 class="mb-0 text-info">{{ $totalCategories }}</h3>
+                                <h6 class="text-muted small text-uppercase fw-semibold mb-1">Categories</h6>
+                                <h3 class="mb-0 text-info fw-bold">{{ $totalCategories }}</h3>
                             </div>
-                            <i class="bi bi-tag-fill text-info" style="font-size: 2rem;"></i>
+                            <i class="bi bi-tag-fill text-info fs-2"></i>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="col-md-3 mb-3">
-                <div class="card shadow-sm border-0">
+            <div class="col-md-3">
+                <div class="card shadow-sm border-0 h-100">
                     <div class="card-body">
                         <div class="d-flex align-items-center">
                             <div class="flex-grow-1">
-                                <h6 class="text-muted mb-0">Quick Links</h6>
-                                <p class="mb-0 small">
-                                    <a href="{{ route('admin.users') }}" class="text-decoration-none">View Users</a> |
-                                    <a href="{{ route('admin.listings') }}" class="text-decoration-none">View Listings</a>
+                                <h6 class="text-muted small text-uppercase fw-semibold mb-1">Quick Links</h6>
+                                <p class="mb-0 small mt-2">
+                                    <a href="{{ route('admin.users') }}" class="text-decoration-none fw-medium">View Users</a>
+                                    <span class="text-muted mx-1">|</span>
+                                    <a href="{{ route('admin.listings') }}" class="text-decoration-none fw-medium">View Listings</a>
                                 </p>
                             </div>
-                            <i class="bi bi-gear-fill text-secondary" style="font-size: 2rem;"></i>
+                            <i class="bi bi-gear-fill text-secondary fs-2"></i>
                         </div>
                     </div>
                 </div>
             </div>
+
         </div>
 
         <div class="row">
@@ -180,6 +182,9 @@
                             </a>
                             <a href="{{ route('admin.listings') }}" class="btn btn-outline-primary">
                                 <i class="bi bi-shop"></i> Moderate Listings
+                            </a>
+                            <a href="{{ route('admin.audit_logs') }}" class="btn btn-outline-primary">
+                                <i class="bi bi-shop"></i> View Logs
                             </a>
                             <a href="{{ route('listing.index') }}" class="btn btn-outline-secondary">
                                 <i class="bi bi-arrow-left"></i> Back to Marketplace

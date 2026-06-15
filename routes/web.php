@@ -6,7 +6,7 @@ use App\Http\Controllers\ListingController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\AdminController;
 use App\Http\Middleware\SellerMiddleware;
-
+use App\Models\AuditLog;
 
 Route::get('/', [ListingController::class, 'index'])->name('listing.index');
 
@@ -77,4 +77,9 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
 
     // Delete a category
     Route::delete('/categories/{category}', [AdminController::class, 'deleteCategory'])->name('admin.deleteCategory');
+
+    Route::get('/audit-logs', function () {
+        $logs = AuditLog::with('user')->latest()->paginate(20);
+        return view('admin.audit_logs', compact('logs'));
+    })->name('admin.audit_logs');
 });
