@@ -1,4 +1,5 @@
 <x-layout>
+
     <div class="container mt-5">
         <!-- Header Section -->
         <div class="row mb-5">
@@ -144,6 +145,48 @@
         </div>
         @endif
     </div>
+
+    @if($recentlySold->isNotEmpty())
+    <div class="row mb-5">
+        <div class="col-12 border-bottom pb-2 mb-4">
+            <h3 class="fw-bold text-dark mb-1">
+                <i class="bi bi-bag-check-fill text-danger me-2"></i>Recently Sold
+            </h3>
+            <p class="text-muted small mb-0">Deals you just missed! See what has recently left the marketplace.</p>
+        </div>
+
+        <div class="row g-4">
+            @foreach($recentlySold as $soldItem)
+            <div class="col-md-4">
+                <div class="card h-100 border-light-subtle shadow-sm bg-light-subtle opacity-75 position-relative" style="transform: none !important;">
+
+                    <span class="badge bg-danger position-absolute top-0 end-0 m-3 px-3 py-2 rounded-pill shadow-sm text-uppercase fw-bold" style="z-index: 2;">
+                        <i class="bi bi-bookmark-dash-fill me-1"></i> Sold
+                    </span>
+
+                    <div class="card-body d-flex flex-column pt-5">
+                        <div class="flex-grow-1">
+                            <h5 class="card-title text-decoration-line-through text-muted fw-bold mb-1">
+                                {{ $soldItem->title }}
+                            </h5>
+                            <p class="text-secondary small mb-3">
+                                {{ Str::limit($soldItem->description, 70) }}
+                            </p>
+                        </div>
+
+                        <div class="d-flex justify-content-between align-items-center mt-3 pt-2 border-top border-light-subtle">
+                            <span class="text-dark fw-bold">${{ number_format($soldItem->price, 2) }}</span>
+                            <small class="text-muted italic" style="font-size: 11px;">
+                                Sold {{ $soldItem->updated_at->diffForHumans() }}
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @endforeach
+        </div>
+    </div>
+    @endif
 
     <style>
         .listing-card {

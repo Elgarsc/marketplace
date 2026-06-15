@@ -42,6 +42,10 @@ class ListingPolicy
         return $user->isSeller();
     }
 
+    public function markSold(User $user): bool
+    {
+        return ($user->isAdmin() || $user->isSeller());
+    }
     /**
      * Determine whether the user can update the model.
      */

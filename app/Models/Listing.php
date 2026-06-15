@@ -13,6 +13,7 @@ class Listing extends Model
         'title',
         'description',
         'price',
+        'status',
         'category_id',
         'user_id',
     ];

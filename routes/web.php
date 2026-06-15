@@ -7,6 +7,7 @@ use App\Http\Controllers\MessageController;
 use App\Http\Controllers\AdminController;
 use App\Http\Middleware\SellerMiddleware;
 use App\Models\AuditLog;
+use App\Models\Listing;
 
 Route::get('/', [ListingController::class, 'index'])->name('listing.index');
 
@@ -35,6 +36,8 @@ Route::middleware('auth')->group(function () {
     Route::put('/listings/{listing}', [ListingController::class, 'update'])->name('listing.update');
 
     Route::delete('/listings/{listing}', [ListingController::class, 'destroy'])->name('listing.destroy');
+
+    Route::post('/listings/{listing}/mark-as-sold', [ListingController::class, 'markAsSold'])->name('listing.markAsSold');
 
     Route::get('/messages', [MessageController::class, 'list'])->name('message.list');
 

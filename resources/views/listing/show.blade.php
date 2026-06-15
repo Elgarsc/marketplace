@@ -83,7 +83,7 @@
                     </div>
                 </div>
 
-                <!-- Action Buttons -->
+                <!-- Buttons -->
                 @auth
                 <div class="mb-4">
                     @can('update', $listing)
@@ -96,13 +96,25 @@
                     <form action="{{ route('listing.destroy', $listing) }}" method="POST" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this listing?');">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="btn btn-danger btn-lg">
+                        <button type="submit" class="btn btn-danger btn-lg me-2">
                             <i class="bi bi-trash"></i> Delete
                         </button>
                     </form>
                     @endcan
+                    @can('markSold', $listing)
+                    @if($listing->status === 'active')
+
+                    <form action="{{ route('listing.markAsSold', $listing->id) }}" method="POST" style="display:inline;">
+                        @csrf
+                        <button type="submit" class="btn btn-secondary btn-lg">
+                            <i class="bi bi-check-circle-fill me-2"></i> Mark as Sold
+                        </button>
+                    </form>
+                    @endif
+                    @endcan
                 </div>
                 @endauth
+
 
                 <!-- Contact Seller Section -->
                 @if(!Auth::check() || Auth::user()->id !== $listing->user_id)
@@ -141,6 +153,7 @@
                     <i class="bi bi-info-circle"></i> This is your listing
                 </div>
                 @endif
+
             </div>
         </div>
 

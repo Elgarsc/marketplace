@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Routing\Controller;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
+
 class ListingController extends Controller
 {
     use AuthorizesRequests;
@@ -25,9 +26,11 @@ class ListingController extends Controller
      */
     public function index(Request $request)
     {
-        $listings = Listing::latest()->paginate(12);
+        $listings = Listing::where('status', 'active')->latest()->paginate(12);
 
-        return view('listing.index', compact('listings'));
+        $recentlySold = Listing::where('status', 'sold')->orderBy('updated_at', 'desc')->take(3)->get();
+
+        return view('listing.index', compact('listings', 'recentlySold'));
     }
 
     public function myListings()
@@ -168,6 +171,23 @@ class ListingController extends Controller
 
         return redirect()->route('listing.index')->with('success', 'Listing deleted successfully!');
     }
+
+    public function markAsSold(Listing $listing)
+    {
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+
+        if ($user->id !== $listing->user_id) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        $listing->update([
+            'status' => 'sold'
+        ]);
+
+        return redirect()->route('listing.index')->with('success', 'Listing marked as sold!');
+    }
+
 
     /**
      * Search listings by keyword, category, or price
