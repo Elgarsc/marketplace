@@ -47,7 +47,7 @@
                         <i class="bi bi-person-circle"></i> {{ Auth::user()->name }}
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                        @if(Auth::user()->isSeller() || Auth::user()->isAdmin())
+                        @if(Auth::user()->isAdmin())
                         <li><a class="dropdown-item" href="{{ route('listing.index') }}">My Dashboard</a></li>
                         <li>
                             <hr class="dropdown-divider">

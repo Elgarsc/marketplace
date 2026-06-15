@@ -44,14 +44,27 @@
                 <!-- Title and Price -->
                 <div class="mb-4">
                     <h1 class="display-5 mb-3">{{ $listing->title }}</h1>
-                    <p class="fs-4 text-primary fw-bold mb-3">
-                        ${{ number_format($listing->price, 2) }}
-                    </p>
+                    <div class="price-container my-3">
+                        <h3 class="text-2xl font-bold">
+                            {{ $listing->currency === 'EUR' ? '€' : '$' }}{{ $listing->price }} {{ $listing->currency }}
+                        </h3>
+
+                        <span class="text-sm text-success font-semibold">
+                            (Aptuveni: {{ $converted['currency'] === 'EUR' ? '€' : '$' }}{{ $converted['price'] }} {{ $converted['currency'] }} — aprēķināts ar ārējo API)
+                        </span>
+                    </div>
                 </div>
 
                 <!-- Listing Info Card -->
                 <div class="card mb-4 shadow-sm">
                     <div class="card-body">
+                        <div class="mb-0">
+                            <label class="form-label"><strong>Availability</strong></label>
+                            <p class="form-control-plaintext">
+                                {{ $listing->status }}
+                            </p>
+                        </div>
+
                         <div class="mb-3">
                             <label class="form-label"><strong>Category</strong></label>
                             <p class="form-control-plaintext">

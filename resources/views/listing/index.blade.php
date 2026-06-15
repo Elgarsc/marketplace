@@ -104,7 +104,7 @@
 
                         <!-- Price -->
                         <p class="card-text text-primary fw-bold fs-5 mb-2">
-                            ${{ number_format($listing->price, 2) }}
+                            {{ $listing->currency === 'EUR' ? '€' : '$' }}{{ number_format($listing->price, 2) }}
                         </p>
 
                         <!-- Seller Info -->

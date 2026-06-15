@@ -15,7 +15,7 @@ class ListingObserver
             'action' => 'created',
             'model_type' => Listing::class,
             'model_id' => $listing->id,
-            'description' => 'Created listing "' . $listing->title . '" priced at $' . number_format($listing->price, 2)
+            'description' => 'Created listing "' . $listing->title . '" priced at ' . ($listing->currency === 'EUR' ? '€' : '$') . number_format($listing->price, 2)
         ]);
     }
 

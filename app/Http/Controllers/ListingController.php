@@ -10,7 +10,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Routing\Controller;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-
+use App\Services\CurrencyService;
+use App\Models\AuditLog;
 
 class ListingController extends Controller
 {
@@ -66,6 +67,7 @@ class ListingController extends Controller
             'title' => 'required|string|max:255',
             'description' => 'required|string|max:1000',
             'price' => 'required|numeric|min:0',
+            'currency' => 'required|in:EUR,USD',
             'category_id' => 'required|exists:categories,id',
             'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
@@ -74,11 +76,11 @@ class ListingController extends Controller
             'title' => $validated['title'],
             'description' => $validated['description'],
             'price' => $validated['price'],
+            'currency' => $validated['currency'],
             'category_id' => $validated['category_id'],
             'user_id' => Auth::id(),
         ]);
 
-        // Handle image uploads
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $image) {
                 $path = $image->store('listings', 'public');
@@ -95,17 +97,21 @@ class ListingController extends Controller
     /**
      * Display the specified listing
      */
-    public function show(Listing $listing)
+
+
+    public function show(Listing $listing, CurrencyService $currencyService)
     {
         $listing->load('user', 'category', 'images');
 
         /** @var \App\Models\User $user */
         $user = Auth::user();
 
-        // Now your editor and Laravel both know what favorites() is!
         $isFavorited = $user && $user->favorites()->where('listing_id', $listing->id)->exists();
 
-        return view('listing.show', compact('listing', 'isFavorited'));
+        // Dinamiski konvertējam pretējo valūtu, balstoties uz to, kas ir DB
+        $converted = $currencyService->getConvertedData($listing->price, $listing->currency);
+
+        return view('listing.show', compact('listing', 'isFavorited', 'converted'));
     }
 
     /**
@@ -130,6 +136,7 @@ class ListingController extends Controller
             'title' => 'required|string|max:255',
             'description' => 'required|string|max:1000',
             'price' => 'required|numeric|min:0',
+            'currency' => 'required|in:EUR,USD', // Validējam valūtu
             'category_id' => 'required|exists:categories,id',
             'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
@@ -138,10 +145,10 @@ class ListingController extends Controller
             'title' => $validated['title'],
             'description' => $validated['description'],
             'price' => $validated['price'],
+            'currency' => $validated['currency'], // Saglabājam izmaiņas datubāzē
             'category_id' => $validated['category_id'],
         ]);
 
-        // Handle new image uploads
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $image) {
                 $path = $image->store('listings', 'public');
@@ -162,7 +169,7 @@ class ListingController extends Controller
     {
         $this->authorize('delete', $listing);
 
-        // Delete images
+
         foreach ($listing->images as $image) {
             Storage::disk('public')->delete($image->image_path);
         }
@@ -177,12 +184,20 @@ class ListingController extends Controller
         /** @var \App\Models\User $user */
         $user = Auth::user();
 
-        if ($user->id !== $listing->user_id) {
+        if ($user->id !== $listing->user_id && !$user->isAdmin()) {
             abort(403, 'Unauthorized action.');
         }
 
         $listing->update([
             'status' => 'sold'
+        ]);
+
+        AuditLog::create([
+            'user_id' => $user->id,
+            'action' => 'marked_as_sold',
+            'model_type' => Listing::class,
+            'model_id' => $listing->id,
+            'description' => ($user->is_admin ? 'Admin' : 'Owner') . ' marked listing "' . $listing->title . '" as sold.'
         ]);
 
         return redirect()->route('listing.index')->with('success', 'Listing marked as sold!');

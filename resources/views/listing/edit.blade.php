@@ -64,19 +64,30 @@
 
                             <!-- Price -->
                             <div class="mb-4">
-                                <label for="price" class="form-label"><strong>Price ($) *</strong></label>
-                                <input
-                                    type="number"
-                                    id="price"
-                                    name="price"
-                                    class="form-control @error('price') is-invalid @enderror"
-                                    placeholder="Enter price"
-                                    step="0.01"
-                                    min="0"
-                                    value="{{ old('price', $listing->price) }}"
-                                    required>
+                                <label for="price" class="form-label"><strong>Price & Currency *</strong></label>
+                                <div class="input-group">
+                                    <input
+                                        type="number"
+                                        id="price"
+                                        name="price"
+                                        class="form-control @error('price') is-invalid @enderror"
+                                        placeholder="Enter price"
+                                        step="0.01"
+                                        min="0"
+                                        value="{{ old('price', $listing->price) }}"
+                                        required>
+
+                                    <select name="currency" class="form-select @error('currency') is-invalid @enderror" style="max-width: 100px;" required>
+                                        <option value="EUR" {{ old('currency', $listing->currency) == 'EUR' ? 'selected' : '' }}>EUR (€)</option>
+                                        <option value="USD" {{ old('currency', $listing->currency) == 'USD' ? 'selected' : '' }}>USD ($)</option>
+                                    </select>
+                                </div>
+
                                 @error('price')
-                                <div class="invalid-feedback">{{ $message }}</div>
+                                <div class="text-danger small mt-1">{{ $message }}</div>
+                                @enderror
+                                @error('currency')
+                                <div class="text-danger small mt-1">{{ $message }}</div>
                                 @enderror
                             </div>
 
