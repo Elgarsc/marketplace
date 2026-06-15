@@ -9,32 +9,35 @@
         <div class="row">
             <!-- Images Section -->
             <div class="col-md-6 mb-4">
-                <div class="card shadow-sm mb-3">
-                    <div class="card-body p-0">
-                        @if($listing->images->count() > 0)
-                        <img
-                            src="{{ asset('storage/' . $listing->images->first()->image_path) }}"
-                            alt="{{ $listing->title }}"
-                            class="img-fluid w-100"
-                            style="max-height: 500px; object-fit: cover;">
-                        @else
-                        <div class="bg-light d-flex align-items-center justify-content-center" style="height: 500px;">
-                            <i class="bi bi-image text-muted" style="font-size: 5rem;"></i>
-                        </div>
-                        @endif
-                    </div>
-                </div>
+                @if($listing->images->count() > 0)
+                <div id="listingImageCarousel" class="carousel slide card shadow-sm" data-bs-ride="carousel">
 
-                <!-- Thumbnail Gallery -->
-                @if($listing->images->count() > 1)
-                <div class="d-flex gap-2 overflow-auto pb-2">
-                    @foreach($listing->images as $image)
-                    <img
-                        src="{{ asset('storage/' . $image->image_path) }}"
-                        alt="Thumbnail"
-                        class="img-thumbnail"
-                        style="width: 80px; height: 80px; object-fit: cover; cursor: pointer;">
-                    @endforeach
+                    <div class="carousel-inner">
+                        @foreach($listing->images as $index => $image)
+                        <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
+                            <img
+                                src="{{ asset('storage/' . $image->image_path) }}"
+                                class="d-block w-100 rounded"
+                                alt="Listing Image"
+                                style="max-height: 500px; object-fit: cover;">
+                        </div>
+                        @endforeach
+                    </div>
+
+                    @if($listing->images->count() > 1)
+                    <button class="carousel-control-prev" type="button" data-bs-target="#listingImageCarousel" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon bg-dark rounded-circle" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#listingImageCarousel" data-bs-slide="next">
+                        <span class="carousel-control-next-icon bg-dark rounded-circle" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                    @endif
+                </div>
+                @else
+                <div class="card shadow-sm bg-light d-flex align-items-center justify-content-center" style="height: 500px;">
+                    <i class="bi bi-image text-muted" style="font-size: 5rem;"></i>
                 </div>
                 @endif
             </div>

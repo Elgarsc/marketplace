@@ -14,5 +14,6 @@ class CategorySeeder extends Seeder
         Category::create(['name' => 'Clothing', 'description' => 'Apparel and fashion items']);
         Category::create(['name' => 'Books', 'description' => 'Books and reading materials']);
         Category::create(['name' => 'Sports', 'description' => 'Sports equipment and gear']);
+        Category::create(['name' => 'Other', 'description' => 'Other stuff']);
     }
 }
