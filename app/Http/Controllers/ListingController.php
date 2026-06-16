@@ -227,8 +227,8 @@ class ListingController extends Controller
             $query->search($request->keyword);
         }
 
-        if ($request->filled('category_id')) {
-            $query->byCategory($request->category_id);
+        if ($request->has('category') && $request->category) {
+            $query->byCategory($request->category);
         }
         if ($request->filled('min_price') || $request->filled('max_price')) {
             $minPrice = $request->filled('min_price') ? floatval($request->min_price) : 0;
