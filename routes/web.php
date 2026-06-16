@@ -11,8 +11,6 @@ use App\Models\AuditLog;
 // Guest
 Route::get('/', [ListingController::class, 'index'])->name('listing.index');
 Route::get('/search', [ListingController::class, 'search'])->name('listing.search');
-Route::get('/listings/{listing}', [ListingController::class, 'show'])->name('listing.show');
-
 
 Route::get('/register', [AuthController::class, 'showRegister'])->name('auth.register');
 Route::post('/register', [AuthController::class, 'register']);
@@ -62,3 +60,5 @@ Route::middleware(['auth'])->group(function () {
         })->name('admin.audit_logs');
     });
 });
+
+Route::get('/listings/{listing}', [ListingController::class, 'show'])->name('listing.show');
