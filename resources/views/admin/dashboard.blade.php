@@ -186,6 +186,9 @@
                             <a href="{{ route('admin.audit_logs') }}" class="btn btn-outline-primary">
                                 <i class="bi bi-shop"></i> View Logs
                             </a>
+                            <a href="{{ route('admin.createOrDeleteCategory') }}" class="btn btn-outline-primary">
+                                <i></i> Manage Categories
+                            </a>
                             <a href="{{ route('listing.index') }}" class="btn btn-outline-secondary">
                                 <i class="bi bi-arrow-left"></i> Back to Marketplace
                             </a>

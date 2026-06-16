@@ -28,10 +28,10 @@ class ListingController extends Controller
     public function index(Request $request)
     {
         $listings = Listing::where('status', 'active')->latest()->paginate(12);
-
+        $categories = Category::all();
         $recentlySold = Listing::where('status', 'sold')->orderBy('updated_at', 'desc')->take(3)->get();
 
-        return view('listing.index', compact('listings', 'recentlySold'));
+        return view('listing.index', compact('listings', 'recentlySold', 'categories'));
     }
 
     public function myListings()

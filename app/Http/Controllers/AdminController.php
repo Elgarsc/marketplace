@@ -63,6 +63,7 @@ class AdminController extends Controller
     public function blockUser(User $user)
     {
         $user->update(['blocked' => true]);
+
         return back()->with('success', 'User blocked successfully!');
     }
 
@@ -96,5 +97,11 @@ class AdminController extends Controller
     {
         $category->delete();
         return back()->with('success', 'Category deleted successfully!');
+    }
+    public function manageCategories()
+    {
+        $categories = Category::all();
+
+        return view('admin.categories', compact('categories'));
     }
 }

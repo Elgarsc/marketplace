@@ -48,6 +48,18 @@ class AuthController extends Controller
         ]);
 
         if (Auth::attempt($validated)) {
+            $user = Auth::user();
+
+            if ($user && $user->blocked) {
+                Auth::logout();
+                $request->session()->invalidate();
+                $request->session()->regenerateToken();
+
+                return back()->withErrors([
+                    'email' => 'Your account has been suspended.',
+                ])->onlyInput('email');
+            }
+
             $request->session()->regenerate();
             return redirect()->intended(route('listing.index'))->with('success', 'Login successful!');
         }

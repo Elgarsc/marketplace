@@ -53,13 +53,13 @@
                                 min="0">
                         </div>
                         <div class="col-md-2">
-                            <select name="category" class="form-select">
+                            <select name="category_id" class="form-select">
                                 <option value="">All Categories</option>
-                                <option value="electronics">Electronics</option>
-                                <option value="furniture">Furniture</option>
-                                <option value="clothing">Clothing</option>
-                                <option value="books">Books</option>
-                                <option value="sports">Sports</option>
+                                @foreach($categories as $category)
+                                <option value="{{ $category->id }}" {{ request('category_id') == $category->id ? 'selected' : '' }}>
+                                    {{ $category->name }}
+                                </option>
+                                @endforeach
                             </select>
                         </div>
                         <div class="col-md-2">
@@ -92,7 +92,7 @@
                     </div>
 
                     <div class="card-body d-flex flex-column">
-                        <!-- Category Badge -->
+                        <!-- Category -->
                         <span class="badge bg-secondary mb-2">
                             {{ $listing->category->name ?? 'Uncategorized' }}
                         </span>
