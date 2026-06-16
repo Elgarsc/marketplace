@@ -221,7 +221,7 @@ class ListingController extends Controller
      */
     public function search(Request $request)
     {
-        $query = Listing::query();
+        $query = Listing::query()->where('status', '!=', 'sold');
 
         if ($request->filled('keyword')) {
             $query->search($request->keyword);
