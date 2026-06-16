@@ -12,7 +12,6 @@
                         <tr>
                             <th class="ps-4 py-3" style="width: 200px;">Timestamp</th>
                             <th style="width: 180px;">User</th>
-                            <th style="width: 120px;">Action</th>
                             <th>Activity Details</th>
                         </tr>
                     </thead>
@@ -28,15 +27,6 @@
                                 <span class="text-muted d-block" style="font-size: 11px;">ID: #{{ $log->user_id }}</span>
                                 @else
                                 <span class="text-muted italic">System / Guest</span>
-                                @endif
-                            </td>
-                            <td>
-                                @if($log->action === 'created')
-                                <span class="badge bg-success-subtle text-success px-2 py-1 rounded-pill">Created</span>
-                                @elseif($log->action === 'updated')
-                                <span class="badge bg-warning-subtle text-warning px-2 py-1 rounded-pill">Updated</span>
-                                @else
-                                <span class="badge bg-danger-subtle text-danger px-2 py-1 rounded-pill">Deleted</span>
                                 @endif
                             </td>
                             <td class="text-secondary">

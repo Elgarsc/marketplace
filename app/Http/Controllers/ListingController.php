@@ -91,6 +91,12 @@ class ListingController extends Controller
             }
         }
 
+        AuditLog::create([
+            'user_id' => Auth::id(),
+            'action' => 'create_listing',
+            'description' => "Lietotājs izveidoja sludinājumu: '{$listing->title}' (ID: {$listing->id})",
+        ]);
+
         return redirect()->route('listing.show', $listing)->with('success', 'Listing created successfully!');
     }
 
@@ -159,6 +165,12 @@ class ListingController extends Controller
             }
         }
 
+        AuditLog::create([
+            'user_id' => Auth::id(),
+            'action' => 'update_listing',
+            'description' => "Lietotājs atjaunināja sludinājumu: '{$listing->title}' (ID: {$listing->id})",
+        ]);
+
         return redirect()->route('listing.show', $listing)->with('success', 'Listing updated successfully!');
     }
 
@@ -211,23 +223,26 @@ class ListingController extends Controller
     {
         $query = Listing::query();
 
-        if ($request->has('keyword') && $request->keyword) {
+        if ($request->filled('keyword')) {
             $query->search($request->keyword);
         }
 
-        if ($request->has('category') && $request->category) {
-            $query->byCategory($request->category);
+        if ($request->filled('category_id')) {
+            $query->byCategory($request->category_id);
         }
+        if ($request->filled('min_price') || $request->filled('max_price')) {
+            $minPrice = $request->filled('min_price') ? floatval($request->min_price) : 0;
+            $maxPrice = $request->filled('max_price') ? floatval($request->max_price) : PHP_INT_MAX;
 
-        if ($request->has('min_price') && $request->min_price) {
-            $minPrice = floatval($request->min_price);
-            $maxPrice = $request->has('max_price') && $request->max_price ? floatval($request->max_price) : PHP_INT_MAX;
             $query->byPriceRange($minPrice, $maxPrice);
         }
 
-        $listings = $query->latest()->paginate(12);
+        $listings = $query->latest()->paginate(12)->withQueryString();
+
         $categories = Category::all();
 
-        return view('listing.search', compact('listings', 'categories'));
+        $recentlySold = collect();
+
+        return view('listing.search', compact('listings', 'categories', 'recentlySold'));
     }
 }

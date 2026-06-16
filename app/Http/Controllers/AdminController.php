@@ -7,6 +7,8 @@ use App\Models\User;
 use App\Models\Listing;
 use App\Models\Category;
 use Illuminate\Routing\Controller;
+use App\Models\AuditLog;
+use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
 {
@@ -54,6 +56,15 @@ class AdminController extends Controller
     public function deleteListing(Listing $listing)
     {
         $listing->delete();
+
+        AuditLog::create([
+            'user_id' => Auth::id(),
+            'action' => 'delete_listing',
+            'description' => "Administrators izdzēsa sludinājumu: '{$listing->title}' (ID: {$listing->id})",
+            'model_type' => Listing::class,
+            'model_id' => $listing->id,
+        ]);
+
         return back()->with('success', 'Listing deleted successfully!');
     }
 
@@ -64,6 +75,14 @@ class AdminController extends Controller
     {
         $user->update(['blocked' => true]);
 
+        AuditLog::create([
+            'user_id' => Auth::id(),
+            'action' => 'block_user',
+            'description' => "Administrators nobloķēja lietotāju: {$user->name} (ID: {$user->id})",
+            'model_type' => User::class,
+            'model_id' => $user->id,
+        ]);
+
         return back()->with('success', 'User blocked successfully!');
     }
 
@@ -73,6 +92,15 @@ class AdminController extends Controller
     public function unblockUser(User $user)
     {
         $user->update(['blocked' => false]);
+
+        AuditLog::create([
+            'user_id' => Auth::id(),
+            'action' => 'unblock_user',
+            'description' => "Administrators nobloķēja lietotāju: {$user->name} (ID: {$user->id})",
+            'model_type' => User::class,
+            'model_id' => $user->id,
+        ]);
+
         return back()->with('success', 'User unblocked successfully!');
     }
 
@@ -86,7 +114,15 @@ class AdminController extends Controller
             'description' => 'nullable|string|max:500',
         ]);
 
-        Category::create($validated);
+        $category = Category::create($validated);
+
+        AuditLog::create([
+            'user_id' => Auth::id(),
+            'action' => 'create_category',
+            'description' => "Administrators izveidoja kategoriju: '{$category->name}' (ID: {$category->id})",
+            'model_type' => Category::class,
+            'model_id' => $category->id,
+        ]);
         return back()->with('success', 'Category created successfully!');
     }
 
@@ -95,7 +131,17 @@ class AdminController extends Controller
      */
     public function deleteCategory(Category $category)
     {
+
+        AuditLog::create([
+            'user_id' => Auth::id(),
+            'action' => 'delete_category',
+            'description' => "Administrators izdzesa kategoriju: '{$category->name}' (ID: {$category->id})",
+            'model_type' => Category::class,
+            'model_id' => $category->id,
+        ]);
+
         $category->delete();
+
         return back()->with('success', 'Category deleted successfully!');
     }
     public function manageCategories()
