@@ -9,19 +9,6 @@
         </div>
 
         <div class="row">
-            <div class="col-lg-3 mb-4">
-                <!-- Search Messages -->
-                <div class="card mb-4 shadow-sm">
-                    <div class="card-body">
-                        <input
-                            type="text"
-                            class="form-control mb-3"
-                            id="searchConversations"
-                            placeholder="Search conversations...">
-                    </div>
-                </div>
-            </div>
-
             <div class="col-lg-9">
                 @if($conversations->count() > 0)
                 <div class="list-group">
@@ -68,26 +55,4 @@
             </div>
         </div>
     </div>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const searchInput = document.getElementById('searchConversations');
-            const conversationItems = document.querySelectorAll('.conversation-item');
-
-            if (searchInput) {
-                searchInput.addEventListener('keyup', function() {
-                    const searchTerm = this.value.toLowerCase();
-
-                    conversationItems.forEach(item => {
-                        const name = item.getAttribute('data-name');
-                        if (name.includes(searchTerm)) {
-                            item.style.display = 'block';
-                        } else {
-                            item.style.display = 'none';
-                        }
-                    });
-                });
-            }
-        });
-    </script>
 </x-layout>

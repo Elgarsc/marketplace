@@ -21,7 +21,6 @@ class Listing extends Model
         'user_id',
     ];
 
-    // Relationships
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -47,7 +46,6 @@ class Listing extends Model
         return $this->belongsToMany(User::class, 'favorites', 'listing_id', 'user_id');
     }
 
-    // Query Scopes
     public function scopeSearch($query, $keyword)
     {
         return $query->where('title', 'like', "%{$keyword}%")
