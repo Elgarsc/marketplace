@@ -5,12 +5,12 @@
                 <div class="d-flex justify-content-between align-items-center">
                     <div>
                         <h1 class="display-5 mb-2">
-                            <i class="bi bi-people"></i> Manage Users
+                            <i class="bi bi-people"></i> {{ __('messages.users.title') }}
                         </h1>
-                        <p class="text-muted">View, block, or unblock users</p>
+                        <p class="text-muted">{{ __('messages.users.sub') }}</p>
                     </div>
                     <a href="{{ route('admin.dashboard') }}" class="btn btn-outline-secondary">
-                        <i class="bi bi-arrow-left"></i> Back to Dashboard
+                        <i class="bi bi-arrow-left"></i> {{ __('messages.users.back_btn') }}
                     </a>
                 </div>
             </div>
@@ -25,12 +25,12 @@
                                 <thead class="table-light">
                                     <tr>
                                         <th>#</th>
-                                        <th>Name</th>
-                                        <th>Email</th>
-                                        <th>Role</th>
-                                        <th>Joined</th>
-                                        <th>Status</th>
-                                        <th>Actions</th>
+                                        <th>{{ __('messages.users.th_name') }}</th>
+                                        <th>{{ __('messages.users.th_email') }}</th>
+                                        <th>{{ __('messages.users.th_role') }}</th>
+                                        <th>{{ __('messages.users.th_joined') }}</th>
+                                        <th>{{ __('messages.users.th_status') }}</th>
+                                        <th>{{ __('messages.users.th_actions') }}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -53,9 +53,9 @@
                                         </td>
                                         <td>
                                             @if($user->blocked)
-                                            <span class="badge bg-danger">Blocked</span>
+                                            <span class="badge bg-danger">{{ __('messages.users.blocked') }}</span>
                                             @else
-                                            <span class="badge bg-success">Active</span>
+                                            <span class="badge bg-success">{{ __('messages.users.active') }}</span>
                                             @endif
                                         </td>
                                         <td>
@@ -63,15 +63,21 @@
                                             @if($user->blocked)
                                             <form action="{{ route('admin.unblockUser', $user) }}" method="POST" style="display:inline;">
                                                 @csrf
-                                                <button type="submit" class="btn btn-sm btn-success" title="Unblock User">
-                                                    <i class="bi bi-check-circle"></i> Unblock
+                                                <button type="submit" class="btn btn-sm btn-success" title="{{ __('messages.users.unblock') }}">
+                                                    <i class="bi bi-check-circle"></i> {{ __('messages.users.unblock') }}
                                                 </button>
                                             </form>
                                             @else
-                                            <form action="{{ route('admin.blockUser', $user) }}" method="POST" style="display:inline;">
+                                            <form action="{{ route('admin.blockUser', $user) }}"
+                                                method="POST"
+                                                style="display:inline;"
+                                                data-confirm-message="{{ __('messages.users.block_confirm') }}">
                                                 @csrf
-                                                <button type="submit" class="btn btn-sm btn-danger" title="Block User" onclick="return confirm('Block this user?')">
-                                                    <i class="bi bi-ban"></i> Block
+                                                <button type="submit"
+                                                    class="btn btn-sm btn-danger"
+                                                    title="{{ __('messages.users.block') }}"
+                                                    onclick="return confirm(this.closest('form').getAttribute('data-confirm-message'))">
+                                                    <i class="bi bi-ban"></i> {{ __('messages.users.block') }}
                                                 </button>
                                             </form>
                                             @endif
@@ -83,7 +89,7 @@
                                     @empty
                                     <tr>
                                         <td colspan="7" class="text-center py-4 text-muted">
-                                            No users found
+                                            {{ __('messages.users.no_users') }}
                                         </td>
                                     </tr>
                                     @endforelse
@@ -93,7 +99,6 @@
                     </div>
                 </div>
 
-                <!-- Pagination -->
                 @if($users->count() > 0)
                 <div class="d-flex justify-content-center mt-4">
                     {{ $users->links() }}

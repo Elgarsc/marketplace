@@ -3,20 +3,19 @@
         <div class="row mb-5">
             <div class="col-12">
                 <h1 class="display-4 mb-2">
-                    <i class="bi bi-speedometer2"></i> Admin Dashboard
+                    <i class="bi bi-speedometer2"></i> {{ __('messages.dashboard.title') }}
                 </h1>
-                <p class="text-muted">Manage users, listings, and categories</p>
+                <p class="text-muted">{{ __('messages.dashboard.sub') }}</p>
             </div>
         </div>
 
-        <!-- Statistics Cards -->
         <div class="row g-4 mb-5">
             <div class="col-md-3">
                 <div class="card shadow-sm border-0 h-100">
                     <div class="card-body">
                         <div class="d-flex align-items-center">
                             <div class="flex-grow-1">
-                                <h6 class="text-muted small text-uppercase fw-semibold mb-1">Total Users</h6>
+                                <h6 class="text-muted small text-uppercase fw-semibold mb-1">{{ __('messages.dashboard.total_users') }}</h6>
                                 <h3 class="mb-0 text-primary fw-bold">{{ $totalUsers }}</h3>
                             </div>
                             <i class="bi bi-people-fill text-primary fs-2"></i>
@@ -30,7 +29,7 @@
                     <div class="card-body">
                         <div class="d-flex align-items-center">
                             <div class="flex-grow-1">
-                                <h6 class="text-muted small text-uppercase fw-semibold mb-1">Total Listings</h6>
+                                <h6 class="text-muted small text-uppercase fw-semibold mb-1">{{ __('messages.dashboard.total_listings') }}</h6>
                                 <h3 class="mb-0 text-success fw-bold">{{ $totalListings }}</h3>
                             </div>
                             <i class="bi bi-shop text-success fs-2"></i>
@@ -44,7 +43,7 @@
                     <div class="card-body">
                         <div class="d-flex align-items-center">
                             <div class="flex-grow-1">
-                                <h6 class="text-muted small text-uppercase fw-semibold mb-1">Categories</h6>
+                                <h6 class="text-muted small text-uppercase fw-semibold mb-1">{{ __('messages.dashboard.categories') }}</h6>
                                 <h3 class="mb-0 text-info fw-bold">{{ $totalCategories }}</h3>
                             </div>
                             <i class="bi bi-tag-fill text-info fs-2"></i>
@@ -58,11 +57,11 @@
                     <div class="card-body">
                         <div class="d-flex align-items-center">
                             <div class="flex-grow-1">
-                                <h6 class="text-muted small text-uppercase fw-semibold mb-1">Quick Links</h6>
+                                <h6 class="text-muted small text-uppercase fw-semibold mb-1">{{ __('messages.dashboard.quick_links') }}</h6>
                                 <p class="mb-0 small mt-2">
-                                    <a href="{{ route('admin.users') }}" class="text-decoration-none fw-medium">View Users</a>
+                                    <a href="{{ route('admin.users') }}" class="text-decoration-none fw-medium">{{ __('messages.dashboard.view_users') }}</a>
                                     <span class="text-muted mx-1">|</span>
-                                    <a href="{{ route('admin.listings') }}" class="text-decoration-none fw-medium">View Listings</a>
+                                    <a href="{{ route('admin.listings') }}" class="text-decoration-none fw-medium">{{ __('messages.dashboard.view_listings') }}</a>
                                 </p>
                             </div>
                             <i class="bi bi-gear-fill text-secondary fs-2"></i>
@@ -74,22 +73,21 @@
         </div>
 
         <div class="row">
-            <!-- Recent Users -->
             <div class="col-lg-6 mb-4">
                 <div class="card shadow-sm">
                     <div class="card-header bg-light p-3 d-flex justify-content-between align-items-center">
-                        <h6 class="mb-0">Recent Users</h6>
-                        <a href="{{ route('admin.users') }}" class="btn btn-sm btn-outline-primary">View All</a>
+                        <h6 class="mb-0">{{ __('messages.dashboard.recent_users') }}</h6>
+                        <a href="{{ route('admin.users') }}" class="btn btn-sm btn-outline-primary">{{ __('messages.dashboard.view_all') }}</a>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-sm table-hover mb-0">
                                 <thead>
                                     <tr>
-                                        <th>Name</th>
-                                        <th>Email</th>
-                                        <th>Role</th>
-                                        <th>Joined</th>
+                                        <th>{{ __('messages.dashboard.th_name') }}</th>
+                                        <th>{{ __('messages.dashboard.th_email') }}</th>
+                                        <th>{{ __('messages.dashboard.th_role') }}</th>
+                                        <th>{{ __('messages.dashboard.th_joined') }}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -112,7 +110,7 @@
                                     </tr>
                                     @empty
                                     <tr>
-                                        <td colspan="4" class="text-center py-3">No users yet</td>
+                                        <td colspan="4" class="text-center py-3">{{ __('messages.dashboard.no_users') }}</td>
                                     </tr>
                                     @endforelse
                                 </tbody>
@@ -122,22 +120,21 @@
                 </div>
             </div>
 
-            <!-- Recent Listings -->
             <div class="col-lg-6 mb-4">
                 <div class="card shadow-sm">
                     <div class="card-header bg-light p-3 d-flex justify-content-between align-items-center">
-                        <h6 class="mb-0">Recent Listings</h6>
-                        <a href="{{ route('admin.listings') }}" class="btn btn-sm btn-outline-primary">View All</a>
+                        <h6 class="mb-0">{{ __('messages.dashboard.recent_listings') }}</h6>
+                        <a href="{{ route('admin.listings') }}" class="btn btn-sm btn-outline-primary">{{ __('messages.dashboard.view_all') }}</a>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-sm table-hover mb-0">
                                 <thead>
                                     <tr>
-                                        <th>Title</th>
-                                        <th>Price</th>
-                                        <th>Category</th>
-                                        <th>Posted by</th>
+                                        <th>{{ __('messages.dashboard.th_title') }}</th>
+                                        <th>{{ __('messages.dashboard.th_price') }}</th>
+                                        <th>{{ __('messages.dashboard.th_category') }}</th>
+                                        <th>{{ __('messages.dashboard.th_posted_by') }}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -158,7 +155,7 @@
                                     </tr>
                                     @empty
                                     <tr>
-                                        <td colspan="4" class="text-center py-3">No listings yet</td>
+                                        <td colspan="4" class="text-center py-3">{{ __('messages.dashboard.no_listings') }}</td>
                                     </tr>
                                     @endforelse
                                 </tbody>
@@ -173,24 +170,24 @@
             <div class="col-12">
                 <div class="card shadow-sm">
                     <div class="card-header bg-light p-3">
-                        <h6 class="mb-0">Admin Actions</h6>
+                        <h6 class="mb-0">{{ __('messages.dashboard.admin_actions') }}</h6>
                     </div>
                     <div class="card-body">
                         <div class="btn-group" role="group">
                             <a href="{{ route('admin.users') }}" class="btn btn-outline-primary">
-                                <i class="bi bi-people"></i> Manage Users
+                                <i class="bi bi-people"></i> {{ __('messages.dashboard.manage_users') }}
                             </a>
                             <a href="{{ route('admin.listings') }}" class="btn btn-outline-primary">
-                                <i class="bi bi-shop"></i> Moderate Listings
+                                <i class="bi bi-shop"></i> {{ __('messages.dashboard.moderate_listings') }}
                             </a>
                             <a href="{{ route('admin.audit_logs') }}" class="btn btn-outline-primary">
-                                <i class="bi bi-shop"></i> View Logs
+                                <i class="bi bi-shop"></i> {{ __('messages.dashboard.view_logs') }}
                             </a>
                             <a href="{{ route('admin.createOrDeleteCategory') }}" class="btn btn-outline-primary">
-                                <i></i> Manage Categories
+                                <i></i> {{ __('messages.dashboard.manage_categories') }}
                             </a>
                             <a href="{{ route('listing.index') }}" class="btn btn-outline-secondary">
-                                <i class="bi bi-arrow-left"></i> Back to Marketplace
+                                <i class="bi bi-arrow-left"></i> {{ __('messages.dashboard.back_to_marketplace') }}
                             </a>
                         </div>
                     </div>

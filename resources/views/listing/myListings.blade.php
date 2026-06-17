@@ -2,11 +2,11 @@
     <div class="container py-5">
         <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center border-bottom pb-4 mb-5 gap-3">
             <div>
-                <h1 class="fw-bold text-dark mb-1">My Listings</h1>
+                <h1 class="fw-bold text-dark mb-1">{{ __('messages.listings.my_listings') }}</h1>
             </div>
             <a href="{{ route('listing.create') }}" class="btn btn-primary align-items-center px-4 py-2">
                 <i class="bi bi-plus-lg me-2"></i>
-                Create Listing
+                {{ __('messages.listings.create_listing') }}
             </a>
         </div>
 
@@ -21,7 +21,7 @@
                         @else
                         <div class="d-flex flex-column align-items-center justify-content-center h-100 text-secondary gap-2">
                             <i class="bi bi-image text-muted fs-2"></i>
-                            <span class="small text-muted">No image provided</span>
+                            <span class="small text-muted">{{ __('messages.listings.no_image') }}</span>
                         </div>
                         @endif
                     </a>
@@ -41,14 +41,14 @@
 
                             <div class="d-flex gap-2">
                                 <a href="{{ route('listing.edit', $listing) }}" class="btn btn-sm bg-primary text-white px-3 d-inline-flex align-items-center">
-                                    <i class="bi bi-pencil me-1"></i> Edit
+                                    <i class="bi bi-pencil me-1"></i> {{ __('messages.listings.edit') }}
                                 </a>
 
                                 <form action="{{ route('listing.destroy', $listing) }}" method="POST" class="d-inline">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-sm bg-danger text-white px-3 d-inline-flex align-items-center">
-                                        <i class="bi bi-trash me-1"></i> Delete
+                                        <i class="bi bi-trash me-1"></i> {{ __('messages.listings.delete') }}
                                     </button>
                                 </form>
                             </div>
@@ -68,10 +68,10 @@
                 <div class="d-inline-flex align-items-center justify-content-center bg-primary-subtle text-primary rounded-circle mb-3" style="width: 64px; height: 64px;">
                     <i class="bi bi-archive fs-3"></i>
                 </div>
-                <h3 class="h5 fw-bold text-dark">No listings yet</h3>
-                <p class="text-muted small mb-4">Create your very first listing.</p>
+                <h3 class="h5 fw-bold text-dark">{{ __('messages.listings.no_listings_yet') }}</h3>
+                <p class="text-muted small mb-4">{{ __('messages.listings.create_first_listing_sub') }}</p>
                 <a href="{{ route('listing.create') }}" class="btn btn-primary shadow-sm px-4 d-inline-flex align-items-center justify-content-center">
-                    <i class="bi bi-plus-lg me-2"></i> Create your first listing
+                    <i class="bi bi-plus-lg me-2"></i> {{ __('messages.listings.create_first_listing_btn') }}
                 </a>
             </div>
         </div>

@@ -2,12 +2,11 @@
     <div class="container mt-5">
         <div class="mb-4">
             <a href="{{ route('listing.index') }}" class="btn btn-outline-secondary">
-                <i class="bi bi-arrow-left"></i> Back to Listings
+                <i class="bi bi-arrow-left"></i> {{ __('messages.show.back_btn') }}
             </a>
         </div>
 
         <div class="row">
-            <!-- Images Section -->
             <div class="col-md-6 mb-4">
                 @if($listing->images->count() > 0)
                 <div id="listingImageCarousel" class="carousel slide card shadow-sm" data-bs-ride="carousel">
@@ -42,9 +41,7 @@
                 @endif
             </div>
 
-            <!-- Details Section -->
             <div class="col-md-6">
-                <!-- Title and Price -->
                 <div class="mb-4">
                     <h1 class="display-5 mb-3">{{ $listing->title }}</h1>
                     <div class="price-container my-3">
@@ -53,37 +50,36 @@
                         </h3>
 
                         <span class="text-sm text-success font-semibold">
-                            (Aptuveni: {{ $converted['currency'] === 'EUR' ? '€' : '$' }}{{ $converted['price'] }} {{ $converted['currency'] }} — aprēķināts ar ārējo API)
+                            {{ __('messages.show.approx', ['price' => $converted['price'], 'currency' => ($converted['currency'] === 'EUR' ? '€' : '$') . ' ' . $converted['currency']]) }}
                         </span>
                     </div>
                 </div>
 
-                <!-- Listing Info Card -->
                 <div class="card mb-4 shadow-sm">
                     <div class="card-body">
                         <div class="mb-0">
-                            <label class="form-label"><strong>Availability</strong></label>
+                            <label class="form-label"><strong>{{ __('messages.show.availability') }}</strong></label>
                             <p class="form-control-plaintext">
                                 {{ $listing->status }}
                             </p>
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label"><strong>Category</strong></label>
+                            <label class="form-label"><strong>{{ __('messages.show.category') }}</strong></label>
                             <p class="form-control-plaintext">
-                                <span class="badge bg-secondary">{{ $listing->category->name ?? 'Uncategorized' }}</span>
+                                <span class="badge bg-secondary">{{ $listing->category->name ?? __('messages.show.uncategorized') }}</span>
                             </p>
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label"><strong>Posted by</strong></label>
+                            <label class="form-label"><strong>{{ __('messages.show.posted_by') }}</strong></label>
                             <p class="form-control-plaintext">
                                 <i class="bi bi-person-circle"></i> {{ $listing->user->name }}
                             </p>
                         </div>
 
                         <div class="mb-0">
-                            <label class="form-label"><strong>Listed On</strong></label>
+                            <label class="form-label"><strong>{{ __('messages.show.listed_on') }}</strong></label>
                             <p class="form-control-plaintext">
                                 {{ $listing->created_at->format('M d, Y') }}
                             </p>
@@ -91,29 +87,31 @@
                     </div>
                 </div>
 
-                <!-- Description -->
                 <div class="card mb-4 shadow-sm">
                     <div class="card-body">
-                        <h5 class="card-title mb-3">Description</h5>
+                        <h5 class="card-title mb-3">{{ __('messages.show.description') }}</h5>
                         <p class="card-text">{{ $listing->description }}</p>
                     </div>
                 </div>
 
-                <!-- Buttons -->
                 @auth
                 <div class="mb-4">
                     @can('update', $listing)
                     <a href="{{ route('listing.edit', $listing) }}" class="btn btn-primary btn-lg me-2">
-                        <i class="bi bi-pencil-square"></i> Edit Listing
+                        <i class="bi bi-pencil-square"></i> {{ __('messages.show.edit_btn') }}
                     </a>
                     @endcan
 
                     @can('delete', $listing)
-                    <form action="{{ route('listing.destroy', $listing) }}" method="POST" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this listing?');">
+                    <form action="{{ route('listing.destroy', $listing) }}"
+                        method="POST"
+                        data-confirm-message="{{ __('messages.show.delete_confirm') }}"
+                        onsubmit="return confirm(this.getAttribute('data-confirm-message'));"
+                        style="display:inline;">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn btn-danger btn-lg me-2">
-                            <i class="bi bi-trash"></i> Delete
+                            <i class="bi bi-trash"></i> {{ __('messages.show.delete_btn') }}
                         </button>
                     </form>
                     @endcan
@@ -123,7 +121,7 @@
                     <form action="{{ route('listing.markAsSold', $listing->id) }}" method="POST" style="display:inline;">
                         @csrf
                         <button type="submit" class="btn btn-secondary btn-lg">
-                            <i class="bi bi-check-circle-fill me-2"></i> Mark as Sold
+                            <i class="bi bi-check-circle-fill me-2"></i> {{ __('messages.show.mark_sold_btn') }}
                         </button>
                     </form>
                     @endif
@@ -132,13 +130,12 @@
                 @endauth
 
 
-                <!-- Contact Seller Section -->
                 @if(!Auth::check() || Auth::user()->id !== $listing->user_id)
                 <div class="card bg-light shadow-sm">
                     <div class="card-body">
                         @auth
                         <h5 class="card-title mb-3">
-                            <i class="bi bi-chat-dots"></i> Interested in this item?
+                            <i class="bi bi-chat-dots"></i> {{ __('messages.show.interested_title') }}
                         </h5>
 
                         <form action="{{ route('message.sendFromListing', $listing) }}" method="POST">
@@ -148,36 +145,35 @@
                                     name="content"
                                     class="form-control"
                                     rows="3"
-                                    placeholder="Send a message to the seller..."
+                                    placeholder="{{ __('messages.show.msg_placeholder') }}"
                                     required></textarea>
                             </div>
                             <button type="submit" class="btn btn-primary btn-lg w-100">
-                                <i class="bi bi-send"></i> Send Message
+                                <i class="bi bi-send"></i> {{ __('messages.show.send_msg_btn') }}
                             </button>
                         </form>
                         @else
-                        <h5 class="card-title mb-3">Want to contact the seller?</h5>
-                        <p class="card-text mb-3">You need to be logged in to send messages.</p>
+                        <h5 class="card-title mb-3">{{ __('messages.show.contact_title') }}</h5>
+                        <p class="card-text mb-3">{{ __('messages.show.login_required') }}</p>
                         <a href="{{ route('auth.login') }}" class="btn btn-primary btn-lg w-100">
-                            <i class="bi bi-box-arrow-in-right"></i> Login to Message
+                            <i class="bi bi-box-arrow-in-right"></i> {{ __('messages.show.login_btn') }}
                         </a>
                         @endauth
                     </div>
                 </div>
                 @else
                 <div class="alert alert-info">
-                    <i class="bi bi-info-circle"></i> This is your listing
+                    <i class="bi bi-info-circle"></i> {{ __('messages.show.own_listing') }}
                 </div>
                 @endif
 
             </div>
         </div>
 
-        <!-- Related Listings -->
         @if($listing->category)
         <div class="row mt-5">
             <div class="col-12">
-                <h3 class="mb-4">More in {{ $listing->category->name }}</h3>
+                <h3 class="mb-4">{{ __('messages.show.more_in', ['category' => $listing->category->name]) }}</h3>
             </div>
 
             @forelse($listing->category->listings()->where('id', '!=', $listing->id)->limit(4)->get() as $related)
@@ -200,7 +196,7 @@
                         <h6 class="card-title text-truncate">{{ $related->title }}</h6>
                         <p class="text-primary fw-bold">${{ number_format($related->price, 2) }}</p>
                         <a href="{{ route('listing.show', $related) }}" class="btn btn-sm btn-outline-primary">
-                            View
+                            {{ __('messages.show.view_btn') }}
                         </a>
                     </div>
                 </div>

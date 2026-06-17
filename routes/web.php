@@ -8,6 +8,23 @@ use App\Http\Controllers\AdminController;
 use App\Http\Middleware\SellerMiddleware;
 use App\Models\AuditLog;
 
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\App;
+
+
+Route::get('lang/{locale}', function ($locale) {
+    if (in_array($locale, ['lv', 'en'])) {
+        Session::put('locale', $locale);
+        Session::save();
+
+        App::setLocale($locale);
+
+        return redirect()->route('listing.index');
+    }
+
+    return redirect()->route('listing.index');
+})->name('lang.switch');
+
 // Guest
 Route::get('/', [ListingController::class, 'index'])->name('listing.index');
 Route::get('/search', [ListingController::class, 'search'])->name('listing.search');

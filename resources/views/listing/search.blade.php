@@ -1,19 +1,17 @@
 <x-layout>
     <div class="container mt-5">
-        <!-- Header -->
         <div class="row mb-5">
             <div class="col-md-8">
-                <h1 class="display-5 mb-3">Search Results</h1>
-                <p class="lead text-muted">Showing listings that match your search criteria</p>
+                <h1 class="display-5 mb-3">{{ __('messages.search.title') }}</h1>
+                <p class="lead text-muted">{{ __('messages.search.sub') }}</p>
             </div>
             <div class="col-md-4 text-end">
                 <a href="{{ route('listing.index') }}" class="btn btn-outline-secondary">
-                    <i class="bi bi-arrow-left"></i> Back to All Listings
+                    <i class="bi bi-arrow-left"></i> {{ __('messages.search.back_btn') }}
                 </a>
             </div>
         </div>
 
-        <!-- Search Filters -->
         <div class="row mb-5">
             <div class="col-md-12">
                 <form action="{{ route('listing.search') }}" method="GET" class="card p-4 shadow-sm">
@@ -23,7 +21,7 @@
                                 type="text"
                                 name="keyword"
                                 class="form-control"
-                                placeholder="Search by keyword..."
+                                placeholder="{{ __('messages.search.keyword_placeholder') }}"
                                 value="{{ request('keyword') }}">
                         </div>
                         <div class="col-md-2">
@@ -31,7 +29,7 @@
                                 type="number"
                                 name="min_price"
                                 class="form-control"
-                                placeholder="Min Price"
+                                placeholder="{{ __('messages.search.min_price') }}"
                                 step="0.01"
                                 min="0"
                                 value="{{ request('min_price') }}">
@@ -41,14 +39,14 @@
                                 type="number"
                                 name="max_price"
                                 class="form-control"
-                                placeholder="Max Price"
+                                placeholder="{{ __('messages.search.max_price') }}"
                                 step="0.01"
                                 min="0"
                                 value="{{ request('max_price') }}">
                         </div>
                         <div class="col-md-2">
                             <select name="category" class="form-select">
-                                <option value="">All Categories</option>
+                                <option value="">{{ __('messages.search.all_categories') }}</option>
                                 @foreach($categories as $category)
                                 <option value="{{ $category->id }}" {{ request('category') == $category->id ? 'selected' : '' }}>
                                     {{ $category->name }}
@@ -58,7 +56,7 @@
                         </div>
                         <div class="col-md-2">
                             <button type="submit" class="btn btn-primary w-100">
-                                <i class="bi bi-search"></i> Search
+                                <i class="bi bi-search"></i> {{ __('messages.search.search_btn') }}
                             </button>
                         </div>
                     </div>
@@ -66,12 +64,10 @@
             </div>
         </div>
 
-        <!-- Results Grid -->
         <div class="row">
             @forelse($listings as $listing)
             <div class="col-lg-3 col-md-6 mb-4">
                 <div class="card h-100 shadow-sm listing-card">
-                    <!-- Image -->
                     <div class="position-relative" style="overflow: hidden; height: 200px;">
                         @if($listing->images->count() > 0)
                         <img
@@ -86,40 +82,33 @@
                     </div>
 
                     <div class="card-body d-flex flex-column">
-                        <!-- Category Badge -->
                         <span class="badge bg-secondary mb-2">
-                            {{ $listing->category->name ?? 'Uncategorized' }}
+                            {{ $listing->category->name ?? __('messages.search.uncategorized') }}
                         </span>
 
-                        <!-- Title -->
                         <h5 class="card-title text-truncate">
                             {{ $listing->title }}
                         </h5>
 
-                        <!-- Price -->
                         <p class="card-text text-primary fw-bold fs-5 mb-2">
-                            ${{ number_format($listing->price, 2) }}
+                            {{ $listing->currency === 'EUR' ? '€' : '$' }}{{ number_format($listing->price, 2) }}
                         </p>
 
-                        <!-- Seller Info -->
                         <p class="card-text small text-muted mb-3">
                             <i class="bi bi-person-circle"></i> {{ $listing->user->name }}
                         </p>
 
-                        <!-- Description Preview -->
                         <p class="card-text small text-muted flex-grow-1 mb-3">
                             {{ Str::limit($listing->description, 100) }}
                         </p>
 
-                        <!-- Listed Date -->
                         <p class="card-text small text-muted mb-3">
                             <i class="bi bi-calendar"></i> {{ $listing->created_at->format('M d, Y') }}
                         </p>
 
-                        <!-- Action Button -->
                         <div class="d-grid gap-2">
                             <a href="{{ route('listing.show', $listing) }}" class="btn btn-success btn-sm">
-                                <i class="bi bi-eye"></i> View Details
+                                <i class="bi bi-eye"></i> {{ __('messages.search.view_details') }}
                             </a>
                         </div>
                     </div>
@@ -129,17 +118,16 @@
             <div class="col-12">
                 <div class="alert alert-info text-center py-5">
                     <i class="bi bi-search" style="font-size: 3rem;"></i>
-                    <h5 class="mt-3">No listings found</h5>
-                    <p class="mb-0">Try adjusting your search filters or browse all listings</p>
+                    <h5 class="mt-3">{{ __('messages.search.no_results') }}</h5>
+                    <p class="mb-0">{{ __('messages.search.no_results_sub') }}</p>
                     <a href="{{ route('listing.index') }}" class="btn btn-primary mt-3">
-                        View All Listings
+                        {{ __('messages.search.view_all_btn') }}
                     </a>
                 </div>
             </div>
             @endforelse
         </div>
 
-        <!-- Pagination -->
         @if($listings->count() > 0)
         <div class="row mt-5">
             <div class="col-12">

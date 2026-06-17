@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ App::getLocale() }}">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ $title ?? 'Marketplace' }}</title>
+    <title>{{ $title ?? __('messages.global.app_name') }}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <style>
@@ -78,14 +78,12 @@
 </head>
 
 <body>
-    <!-- Navigation -->
     <x-navbar />
 
-    <!-- Messages -->
     <div class="container mt-4">
         @if ($errors->any())
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <strong>Error!</strong>
+            <strong>{{ __('messages.alerts.error') }}</strong>
             <ul class="mb-0 mt-2">
                 @foreach ($errors->all() as $error)
                 <li>{{ $error }}</li>
@@ -103,27 +101,25 @@
         @endif
     </div>
 
-    <!-- Content -->
     <div class="container mb-5">
         {{ $slot }}
     </div>
 
-    <!-- Footer -->
     <footer class="footer mt-5">
         <div class="container">
             <div class="row">
                 <div class="col-md-4 mb-3">
-                    <h5>About Us</h5>
-                    <p>Your trusted marketplace for buying and selling items online.</p>
+                    <h5>{{ __('messages.footer.about_us') }}</h5>
+                    <p>{{ __('messages.footer.about_us_desc') }}</p>
                 </div>
                 <div class="col-md-4 mb-3">
-                    <h5>Contact</h5>
+                    <h5>{{ __('messages.footer.contact') }}</h5>
                     <p class="mb-0">Email: info@marketplace.com</p>
                     <p>Phone: +371 12 345 678</p>
                 </div>
             </div>
             <div class="text-center">
-                <p class="mb-0">&copy; 2024 Marketplace. All rights reserved.</p>
+                <p class="mb-0">&copy; {{ date('Y') }} {{ __('messages.global.app_name') }}. {{ __('messages.footer.rights') }}</p>
             </div>
         </div>
     </footer>
