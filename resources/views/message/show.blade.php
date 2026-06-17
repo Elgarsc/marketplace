@@ -65,7 +65,7 @@
                                 </button>
                             </div>
                             @error('content')
-                            <div class="text-danger small mt-2">{{ $message }}</div>
+                            <div class="text-danger small mt-2">{{ $errors->first('content') }}</div>
                             @enderror
                         </form>
                     </div>

@@ -23,7 +23,6 @@ class MessageController extends Controller
     {
         $userId = Auth::id();
 
-        // Get all unique conversations
         $conversations = Message::where('sender_id', $userId)
             ->orWhere('receiver_id', $userId)
             ->orderBy('created_at', 'desc')

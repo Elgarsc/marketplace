@@ -31,4 +31,21 @@ class Message extends Model
     {
         return $this->belongsTo(Listing::class);
     }
+    public function scopeConversation($query, $userId1, $userId2)
+    {
+        return $query->where(function ($q) use ($userId1, $userId2) {
+            $q->where('sender_id', $userId1)
+                ->where('receiver_id', $userId2);
+        })->orWhere(function ($q) use ($userId1, $userId2) {
+            $q->where('sender_id', $userId2)
+                ->where('receiver_id', $userId1);
+        })->orderBy('created_at', 'asc');
+    }
+
+    public function scopeLatestPerContact($query, $userId)
+    {
+        return $query->where('sender_id', $userId)
+            ->orWhere('receiver_id', $userId)
+            ->orderBy('created_at', 'desc');
+    }
 }

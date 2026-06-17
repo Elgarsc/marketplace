@@ -13,13 +13,12 @@ return new class extends Migration
     {
         Schema::create('audit_logs', function (Blueprint $table) {
             $table->id();
-            // Links to the user who did the action. If the user is deleted, keep the log but set user_id to null.
             $table->foreignId('user_id')->nullable()->constrained()->onDelete('set null');
             $table->string('action');       // 'created', 'updated', or 'deleted'
-            $table->string('model_type')->nullable();   // Stores the model name (e.g., 'App\Models\Listing')
-            $table->unsignedBigInteger('model_id')->nullable(); // Stores the ID of the affected listing
-            $table->text('description');    // A human-readable summary of what happened
-            $table->timestamps();           // Automatically tracks the date and time
+            $table->string('model_type')->nullable();
+            $table->unsignedBigInteger('model_id')->nullable();
+            $table->text('description');
+            $table->timestamps();
         });
     }
 
